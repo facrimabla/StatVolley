@@ -129,6 +129,7 @@ h3 { margin: 0 0 6px; font: 600 12px/1 var(--font-body); letter-spacing: .12em; 
   display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 6px;
   min-height: 84px; padding: 10px 12px; border-radius: 12px; text-align: left; border: 1.5px solid;
 }
+.pair .key:only-child { grid-column: 1 / -1; }
 .key .lab { font-weight: 600; font-size: 15px; line-height: 1.15; }
 .key .num { font: 700 38px/1 var(--font-display); font-variant-numeric: tabular-nums; }
 .key.good { background: var(--good-bg); border-color: var(--good-line); color: var(--good); }
@@ -167,7 +168,7 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
   .roster.edit { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 720px) {
-  .actions { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .actions { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   h1 { font-size: 36px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -216,7 +217,7 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
       <div class="seg" id="scope" role="group" aria-label="Periodo dei totali"></div>
     </div>
     <div class="tablewrap"><table id="tbl"></table></div>
-    <p class="legend">BV battuta vincente · EB errore battuta · RB ricezione buona · RE ricezione errata · AV attacco vincente · AE attacco errato</p>
+    <p class="legend">BV battuta vincente · EB errore battuta · RB ricezione buona · RE ricezione errata · AV attacco vincente · AE attacco errato · PT punto</p>
   </section>
 
   <section class="foot" aria-label="Esporta e azzera">
@@ -236,9 +237,10 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
     { id: 'rb', grp: 'Ricezione', label: 'Ricezione buona',  short: 'RB', kind: 'good' },
     { id: 're', grp: 'Ricezione', label: 'Ricezione errata', short: 'RE', kind: 'bad' },
     { id: 'av', grp: 'Attacco',   label: 'Attacco vincente', short: 'AV', kind: 'good' },
-    { id: 'ae', grp: 'Attacco',   label: 'Attacco errato',   short: 'AE', kind: 'bad' }
+    { id: 'ae', grp: 'Attacco',   label: 'Attacco errato',   short: 'AE', kind: 'bad' },
+    { id: 'pt', grp: 'Punto',     label: 'Punto',            short: 'PT', kind: 'good' }
   ];
-  var GROUPS = ['Battuta', 'Ricezione', 'Attacco'];
+  var GROUPS = ['Battuta', 'Ricezione', 'Attacco', 'Punto'];
   var IDS = ACTIONS.map(function (a) { return a.id; });
   var N = 13, MAXSET = 3, STORE = 'pallavolo-u14-stats-v1';
 
