@@ -107,14 +107,14 @@ h3 { margin: 0 0 6px; font: 600 12px/1 var(--font-body); letter-spacing: .12em; 
   border: 1.5px solid var(--line); background: var(--surface); font-size: 17px;
 }
 
-.roster { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+.roster { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; }
 .chip {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
   min-height: 52px; padding: 4px 2px; border-radius: 10px; min-width: 0;
   background: var(--surface); border: 1.5px solid var(--line);
 }
-.chip .nm { font-size: clamp(12px, 3.6vw, 15px); font-weight: 600; line-height: 1.1; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
-.chip .nm.only { font: 700 22px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.chip .nm { font-size: clamp(11px, calc(3.8vw - 1px), 15px); font-weight: 600; line-height: 1.1; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
+.chip .nm.only { font: 700 21px/1 var(--font-display); font-variant-numeric: tabular-nums; }
 .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .chip[aria-pressed="true"] .nm { color: var(--accent-ink); }
 .roster.edit { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -168,8 +168,8 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
 @media (min-width: 600px) {
   .roster { gap: 8px; }
   .chip { min-height: 62px; padding: 6px 4px; border-radius: 12px; }
-  .chip .nm { font-size: 16px; }
-  .chip .nm.only { font-size: 26px; }
+  .chip .nm { font-size: 15px; }
+  .chip .nm.only { font-size: 25px; }
   .roster.edit { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 720px) {
@@ -248,8 +248,8 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
   ];
   var GROUPS = ['Battuta', 'Ricezione', 'Attacco'];
   var IDS = ACTIONS.map(function (a) { return a.id; });
-  var N = 13, MAXSET = 3, STORE = 'pallavolo-u14-stats-v1';
-  // Numeri di maglia di partenza: 1, 3, 4 ... 14 (il 2 non c'è).
+  var N = 12, MAXSET = 3, STORE = 'pallavolo-u14-stats-v1';
+  // Numeri di maglia di partenza: 1, 3, 4 ... 13 (il 2 non c'è).
   function defNum(i) { return i === 0 ? 1 : i + 2; }
 
   var st = { players: [], events: [], set: 1, sel: 0, match: '' };
@@ -266,8 +266,8 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
       var raw = localStorage.getItem(STORE);
       if (!raw) return;
       var d = JSON.parse(raw);
-      if (!d || !Array.isArray(d.players) || d.players.length < 12 || d.players.length > N || !Array.isArray(d.events)) return;
-      st.players = d.players.map(function (p, i) {
+      if (!d || !Array.isArray(d.players) || d.players.length < 12 || d.players.length > 13 || !Array.isArray(d.events)) return;
+      st.players = d.players.slice(0, N).map(function (p, i) {
         return { n: String(p && p.n != null ? p.n : defNum(i)).slice(0, 2), name: String((p && p.name) || '').slice(0, 24) };
       });
       // Dati salvati con la vecchia numerazione 1, 2, 3 ...: passano ai nuovi numeri di partenza.
