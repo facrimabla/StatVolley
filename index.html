@@ -34,6 +34,9 @@ img { max-width: 100%; }
   --bad: #A82A24;
   --bad-bg: #FBE6E4;
   --bad-line: #EDB5B0;
+  --mid: #7A5200;
+  --mid-bg: #FBF0D4;
+  --mid-line: #E6CC8A;
   --font-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
   --font-body: 'Barlow', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
@@ -42,7 +45,7 @@ img { max-width: 100%; }
     --bg: #0D151B; --surface: #16212A; --ink: #E6EDF2; --muted: #92A3AF; --line: #2A3A47;
     --accent: #5DB3E8; --accent-ink: #06202F; --tint: #17303F;
     --good: #6FE0A3; --good-bg: #14301F; --good-line: #25563A;
-    --bad: #FF9A91; --bad-bg: #3A1816; --bad-line: #6A2C28;
+    --bad: #FF9A91; --bad-bg: #3A1816; --bad-line: #6A2C28; --mid: #F2C766; --mid-bg: #3A2E10; --mid-line: #6A5522;
     color-scheme: dark;
   }
 }
@@ -50,7 +53,7 @@ img { max-width: 100%; }
   --bg: #0D151B; --surface: #16212A; --ink: #E6EDF2; --muted: #92A3AF; --line: #2A3A47;
   --accent: #5DB3E8; --accent-ink: #06202F; --tint: #17303F;
   --good: #6FE0A3; --good-bg: #14301F; --good-line: #25563A;
-  --bad: #FF9A91; --bad-bg: #3A1816; --bad-line: #6A2C28;
+  --bad: #FF9A91; --bad-bg: #3A1816; --bad-line: #6A2C28; --mid: #F2C766; --mid-bg: #3A2E10; --mid-line: #6A5522;
   color-scheme: dark;
 }
 
@@ -110,10 +113,10 @@ h3 { margin: 0 0 6px; font: 600 12px/1 var(--font-body); letter-spacing: .12em; 
   min-height: 52px; padding: 4px 2px; border-radius: 10px; min-width: 0;
   background: var(--surface); border: 1.5px solid var(--line);
 }
-.chip .no { font: 700 21px/1 var(--font-display); font-variant-numeric: tabular-nums; }
-.chip .nm { font-size: 10px; line-height: 1.1; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); }
+.chip .nm { font-size: clamp(12px, 3.6vw, 15px); font-weight: 600; line-height: 1.1; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
+.chip .nm.only { font: 700 22px/1 var(--font-display); font-variant-numeric: tabular-nums; }
 .chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.chip[aria-pressed="true"] .nm { color: var(--accent-ink); opacity: .85; }
+.chip[aria-pressed="true"] .nm { color: var(--accent-ink); }
 .roster.edit { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .editcell { display: flex; gap: 6px; min-width: 0; }
 .editcell input {
@@ -125,14 +128,15 @@ h3 { margin: 0 0 6px; font: 600 12px/1 var(--font-body); letter-spacing: .12em; 
 
 .actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
 .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.pair.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .key {
   display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 6px;
   min-height: 84px; padding: 10px 12px; border-radius: 12px; text-align: left; border: 1.5px solid;
 }
-.pair .key:only-child { grid-column: 1 / -1; }
 .key .lab { font-weight: 600; font-size: 15px; line-height: 1.15; }
 .key .num { font: 700 38px/1 var(--font-display); font-variant-numeric: tabular-nums; }
 .key.good { background: var(--good-bg); border-color: var(--good-line); color: var(--good); }
+.key.mid { background: var(--mid-bg); border-color: var(--mid-line); color: var(--mid); }
 .key.bad { background: var(--bad-bg); border-color: var(--bad-line); color: var(--bad); }
 .key:active { transform: scale(.97); }
 .key.hit { animation: pop .18s ease-out; }
@@ -144,6 +148,7 @@ th, td { padding: 9px 6px; text-align: right; border-bottom: 1px solid var(--lin
 th { font: 600 12px/1 var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 th.l, td.l { text-align: left; }
 th.good { color: var(--good); }
+th.mid { color: var(--mid); }
 th.bad { color: var(--bad); }
 td.l.name { max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
 td.zero { color: var(--muted); opacity: .55; }
@@ -163,12 +168,12 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
 @media (min-width: 600px) {
   .roster { gap: 8px; }
   .chip { min-height: 62px; padding: 6px 4px; border-radius: 12px; }
-  .chip .no { font-size: 28px; }
-  .chip .nm { font-size: 12px; }
+  .chip .nm { font-size: 16px; }
+  .chip .nm.only { font-size: 26px; }
   .roster.edit { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 720px) {
-  .actions { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .actions { grid-template-columns: 3fr 2fr 3fr; }
   h1 { font-size: 36px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -217,7 +222,7 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
       <div class="seg" id="scope" role="group" aria-label="Periodo dei totali"></div>
     </div>
     <div class="tablewrap"><table id="tbl"></table></div>
-    <p class="legend">BV battuta vincente · EB errore battuta · RB ricezione buona · RE ricezione errata · AV attacco vincente · AE attacco errato · PT punto</p>
+    <p class="legend">BV battuta vincente · BP battuta positiva · EB battuta errata · RB ricezione buona · RE ricezione errata · AV attacco vincente · AP attacco positivo · AE attacco errato</p>
   </section>
 
   <section class="foot" aria-label="Esporta e azzera">
@@ -233,20 +238,23 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
 (function () {
   var ACTIONS = [
     { id: 'bv', grp: 'Battuta',   label: 'Battuta vincente', short: 'BV', kind: 'good' },
-    { id: 'eb', grp: 'Battuta',   label: 'Errore battuta',   short: 'EB', kind: 'bad' },
+    { id: 'bp', grp: 'Battuta',   label: 'Battuta positiva', short: 'BP', kind: 'mid' },
+    { id: 'eb', grp: 'Battuta',   label: 'Battuta errata',   short: 'EB', kind: 'bad' },
     { id: 'rb', grp: 'Ricezione', label: 'Ricezione buona',  short: 'RB', kind: 'good' },
     { id: 're', grp: 'Ricezione', label: 'Ricezione errata', short: 'RE', kind: 'bad' },
     { id: 'av', grp: 'Attacco',   label: 'Attacco vincente', short: 'AV', kind: 'good' },
-    { id: 'ae', grp: 'Attacco',   label: 'Attacco errato',   short: 'AE', kind: 'bad' },
-    { id: 'pt', grp: 'Punto',     label: 'Punto',            short: 'PT', kind: 'good' }
+    { id: 'ap', grp: 'Attacco',   label: 'Attacco positivo', short: 'AP', kind: 'mid' },
+    { id: 'ae', grp: 'Attacco',   label: 'Attacco errato',   short: 'AE', kind: 'bad' }
   ];
-  var GROUPS = ['Battuta', 'Ricezione', 'Attacco', 'Punto'];
+  var GROUPS = ['Battuta', 'Ricezione', 'Attacco'];
   var IDS = ACTIONS.map(function (a) { return a.id; });
   var N = 13, MAXSET = 3, STORE = 'pallavolo-u14-stats-v1';
+  // Numeri di maglia di partenza: 1, 3, 4 ... 14 (il 2 non c'è).
+  function defNum(i) { return i === 0 ? 1 : i + 2; }
 
   var st = { players: [], events: [], set: 1, sel: 0, match: '' };
   var dl = null;
-  for (var i = 0; i < N; i++) st.players.push({ n: String(i + 1), name: '' });
+  for (var i = 0; i < N; i++) st.players.push({ n: String(defNum(i)), name: '' });
   var ui = { scope: 'set', edit: false, armed: false, timer: null, hit: null };
 
   function $(id) { return document.getElementById(id); }
@@ -260,9 +268,13 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
       var d = JSON.parse(raw);
       if (!d || !Array.isArray(d.players) || d.players.length < 12 || d.players.length > N || !Array.isArray(d.events)) return;
       st.players = d.players.map(function (p, i) {
-        return { n: String(p && p.n != null ? p.n : i + 1).slice(0, 2), name: String((p && p.name) || '').slice(0, 24) };
+        return { n: String(p && p.n != null ? p.n : defNum(i)).slice(0, 2), name: String((p && p.name) || '').slice(0, 24) };
       });
-      while (st.players.length < N) st.players.push({ n: String(st.players.length + 1), name: '' });
+      // Dati salvati con la vecchia numerazione 1, 2, 3 ...: passano ai nuovi numeri di partenza.
+      if (st.players.every(function (p, i) { return p.n === String(i + 1); })) {
+        st.players.forEach(function (p, i) { p.n = String(defNum(i)); });
+      }
+      while (st.players.length < N) st.players.push({ n: String(defNum(st.players.length)), name: '' });
       st.match = String(d.match || '').slice(0, 60);
       st.events = d.events.filter(function (e) {
         return e && e.p >= 0 && e.p < N && IDS.indexOf(e.a) > -1 && e.s >= 1 && e.s <= MAXSET;
@@ -310,8 +322,8 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
     } else {
       el.innerHTML = st.players.map(function (p, i) {
         return '<button type="button" class="chip" data-p="' + i + '" aria-pressed="' + (i === st.sel) + '">' +
-          '<span class="no">' + esc(p.n || '–') + '</span>' +
-          '<span class="nm">' + (p.name ? esc(p.name) : '&nbsp;') + '</span></button>';
+          (p.name ? '<span class="nm">' + esc(p.name) + '</span>' : '<span class="nm only">' + esc(p.n || '–') + '</span>') +
+          '</button>';
       }).join('');
     }
   }
@@ -322,8 +334,9 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
     var t = tally(st.set)[st.sel];
     $('selTitle').textContent = pname(p) + ' · Set ' + st.set;
     $('actions').innerHTML = GROUPS.map(function (g) {
-      return '<div class="group"><h3>' + g + '</h3><div class="pair">' +
-        ACTIONS.filter(function (a) { return a.grp === g; }).map(function (a) {
+      var list = ACTIONS.filter(function (a) { return a.grp === g; });
+      return '<div class="group"><h3>' + g + '</h3><div class="pair n' + list.length + '">' +
+        list.map(function (a) {
           return '<button type="button" class="key ' + a.kind + (ui.hit === a.id ? ' hit' : '') + '" data-act="' + a.id + '">' +
             '<span class="lab">' + a.label + '</span><span class="num">' + t[a.id] + '</span></button>';
         }).join('') + '</div></div>';
