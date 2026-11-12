@@ -144,9 +144,11 @@ h3 { margin: 0 0 6px; font: 600 12px/1 var(--font-body); letter-spacing: .12em; 
 
 .tablewrap { overflow-x: auto; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface); }
 table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
-th, td { padding: 9px 6px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th, td { padding: 9px 4px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
 th { font: 600 12px/1 var(--font-body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 th.l, td.l { text-align: left; }
+th:first-child, td:first-child { padding-left: 8px; }
+th:last-child, td:last-child { padding-right: 8px; }
 th.good { color: var(--good); }
 th.mid { color: var(--mid); }
 th.bad { color: var(--bad); }
@@ -173,7 +175,7 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
   .roster.edit { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (min-width: 720px) {
-  .actions { grid-template-columns: 3fr 2fr 3fr; }
+  .actions { grid-template-columns: 3fr 2fr 2fr 3fr; }
   h1 { font-size: 36px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -222,7 +224,7 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
       <div class="seg" id="scope" role="group" aria-label="Periodo dei totali"></div>
     </div>
     <div class="tablewrap"><table id="tbl"></table></div>
-    <p class="legend">BV battuta vincente · BP battuta positiva · EB battuta errata · RB ricezione buona · RE ricezione errata · AV attacco vincente · AP attacco positivo · AE attacco errato</p>
+    <p class="legend">BV battuta vincente · BP battuta positiva · EB battuta errata · RB ricezione buona · RE ricezione errata · ZB alzata buona · ZE alzata errata · AV attacco vincente · AP attacco positivo · AE attacco errato</p>
   </section>
 
   <section class="foot" aria-label="Esporta e azzera">
@@ -242,11 +244,13 @@ tr.total td { font-weight: 700; border-top: 2px solid var(--ink); background: va
     { id: 'eb', grp: 'Battuta',   label: 'Battuta errata',   short: 'EB', kind: 'bad' },
     { id: 'rb', grp: 'Ricezione', label: 'Ricezione buona',  short: 'RB', kind: 'good' },
     { id: 're', grp: 'Ricezione', label: 'Ricezione errata', short: 'RE', kind: 'bad' },
+    { id: 'zb', grp: 'Alzata',    label: 'Alzata buona',     short: 'ZB', kind: 'good' },
+    { id: 'ze', grp: 'Alzata',    label: 'Alzata errata',    short: 'ZE', kind: 'bad' },
     { id: 'av', grp: 'Attacco',   label: 'Attacco vincente', short: 'AV', kind: 'good' },
     { id: 'ap', grp: 'Attacco',   label: 'Attacco positivo', short: 'AP', kind: 'mid' },
     { id: 'ae', grp: 'Attacco',   label: 'Attacco errato',   short: 'AE', kind: 'bad' }
   ];
-  var GROUPS = ['Battuta', 'Ricezione', 'Attacco'];
+  var GROUPS = ['Battuta', 'Ricezione', 'Alzata', 'Attacco'];
   var IDS = ACTIONS.map(function (a) { return a.id; });
   var N = 12, MAXSET = 3, STORE = 'pallavolo-u14-stats-v1';
   // Numeri di maglia di partenza: 1, 3, 4 ... 13 (il 2 non c'è).
